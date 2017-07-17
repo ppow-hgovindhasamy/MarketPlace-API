@@ -1,0 +1,41 @@
+Configuration:
+  status: warn
+
+  Appenders:
+    Console:
+      name: CONSOLE
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%d{ISO8601} %-5p [%c{3}] [%t] %m%n"
+    RollingFile:
+      - name: APPLICATION
+        fileName: ./logs/vacationServices.log
+        filePattern: "./logs/$${date:yyyy-MM}/paymentServices-%d{yyyy-MM-dd}-%i.log"
+        PatternLayout:
+          Pattern: "%d{ISO8601} %-5p [%c{3}] [%t] %m%n"
+        policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+      - name: HTTP
+        fileName: ./logs/httpRequests.log
+        filePattern: "./logs/$${date:yyyy-MM}/httpRequests-%d{yyyy-MM-dd}-%i.log"
+        PatternLayout:
+          Pattern: "%d{ISO8601} %-5p [%c{3}] [%t] %m%n"
+        policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+
+  Loggers:
+      Root:
+        level: info
+        AppenderRef:
+          - ref: CONSOLE
+          - ref: APPLICATION
+#      Logger:
+#        - name: org.springframework.web.filter.CommonsRequestLoggingFilter
+#          level: info
+#          AppenderRef:
+#            - ref: HTTP
+

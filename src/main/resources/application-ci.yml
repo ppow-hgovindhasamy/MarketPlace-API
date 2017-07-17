@@ -1,0 +1,46 @@
+# ************************************************************************************
+#
+# Configuration file used for CI environment
+# It can override properties define in application.yml
+#
+# ************************************************************************************
+
+spring:
+  jackson:
+    serialization:
+      indent-output: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    hibernate:
+      ddl-auto: none
+      database: Oracle
+      show-sql: true
+
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/ppc
+    username: oauth2
+    password: oauth2
+    test-on-borrow: true
+    validation-query: SELECT 1 FROM DUAL
+    test-while-idle: true
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: oracle
+    continue-on-error: true
+
+
+server:
+  ssl:
+    key-store: classpath:certificates/keystore.p12
+    key-store-password: 123456!
+    key-store-type: PKCS12
+    key-alias: tomcat
+
+hybris:
+  service:
+    baseUrl: http://localhost:9001/purchasingpowerwebservices
+    version: v1
+
+
+oauth:
+  baseUrl: https://localhost:8083

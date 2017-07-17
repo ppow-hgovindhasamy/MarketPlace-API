@@ -1,0 +1,66 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.0.RELEASE'
+    }
+    repositories {
+        maven {
+            url 'http://artifactory.purchasingpwr.com:8081/artifactory/repo'
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+group 'com.purchasingpower'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+jar {
+    baseName = 'vacationapi'
+    version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+   // mavenCentral()
+    maven {
+        url 'http://artifactory.purchasingpwr.com:8081/artifactory/repo'
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-netflix:1.2.0.M1'
+    }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile("org.springframework.boot:spring-boot-starter-data-rest") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile("org.springframework.boot:spring-boot-starter-security") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile("org.springframework.boot:spring-boot-starter-jdbc") {
+        exclude module: 'spring-boot-starter-logging'
+    }
+    compile('org.springframework.cloud:spring-cloud-starter-zuul') {
+        exclude module: 'spring-boot-starter-logging'
+    }
+
+    compile("org.springframework.security.oauth:spring-security-oauth2:2.0.10.RELEASE")
+    compile('org.springframework.boot:spring-boot-starter-log4j2')
+    compile('com.fasterxml.jackson.dataformat:jackson-dataformat-yaml')
+    compile('org.projectlombok:lombok:1.16.10')
+    compile('com.google.code.gson:gson:2.6.2')
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    runtime('mysql:mysql-connector-java:')
+    runtime('ojdbc:ojdbc:6')
+}
